@@ -1,20 +1,3 @@
-/*
-const { exec } = require('child_process');
-
-const ls = exec('dir', function (error, stdout, stderr) {
-  if (error) {
-    console.log(error.stack);
-    console.log('Error code: ' + error.code);
-    console.log('Signal received: ' + error.signal);
-  }
-  console.log('Child Process STDOUT: ' + stdout);
-  console.log('Child Process STDERR: ' + stderr);
-});
-
-ls.on('exit', function (code) {
-  console.log('Child process exited with exit code ' + code);
-});
-*/
 const express = require("express");
 const { exec, spawn } = require('child_process');
 
@@ -34,12 +17,14 @@ app.post("/kost", (req, res) => {
     console.log('data2send : ',data2send)
     res.json({"king" :data2send});
   });
-  //res.json({"king" : "pink"});
-  
-
-  //res.redirect("/");
 });
   
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname,  "build", "index.html"));
+  });
+}
 const PORT = process.env.PORT || 3001;
   
 app.listen(PORT,() => {
