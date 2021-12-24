@@ -2,6 +2,18 @@ const express = require("express");
 const { exec, spawn } = require('child_process');
 
 const app = express();
+
+app.get('/', (req, res, next) => {
+
+  res.status(200).json({
+      status: 'success',
+      data: {
+          name: 'init-script',
+          version: '1.0.0'
+      }
+  });
+
+});
   
 app.post("/kost", (req, res) => {
   console.log("Connected to React");
